@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="loading_view" type="id" />
+    <item name="error_view" type="id" />
+    <item name="nodata_view" type="id" />
+    <item name="data_view" type="id" />
+    <item name="bt_retry" type="id" />
+</resources>
