@@ -11,7 +11,7 @@ import allen.statedatalayout.R;
 /**
  * Created by Allen on 20-Sep-16.
  */
-public class StateDataLayout extends FrameLayout {
+public class StateDataLayout<K extends GetInfoData> extends FrameLayout {
     private LayoutInflater layoutInflater;
     //    private int loading_layout_res;
 //    private int error_layout_res;
@@ -19,29 +19,35 @@ public class StateDataLayout extends FrameLayout {
 //    private int nodata_layout_res;
     private View mLoadingView, mErrorView, mNoDataView, mDataView;
 
-    IControllerTask iControllerTask;
+    ControllerTask<K> controllerTask;
 
     private OnClickListener onRetryButtonClickListener = new OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (iControllerTask != null) {
-                iControllerTask.reload();
+            if (controllerTask != null) {
+                // Send request to controller
+                controllerTask.reload();
+
+                // Change View state
+                switchToLoadingView();
             } else {
-                throw new IllegalStateException("Activity/Fragment must be implement interface IControllerTask");
+                throw new IllegalStateException("Activity/Fragment must be implement interface ControllerTask");
             }
         }
     };
 
-    public void setControllerTask(IControllerTask iControllerTask) {
-        this.iControllerTask = iControllerTask;
+    public void setControllerTask(ControllerTask controllerTask) {
+        this.controllerTask = controllerTask;
     }
 
     public StateDataLayout(Context context) {
         super(context);
+        init(context);
     }
 
     public StateDataLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
     public StateDataLayout(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -146,5 +152,37 @@ public class StateDataLayout extends FrameLayout {
         View retryView = view.findViewById(R.id.bt_retry);
         if (retryView == null) return;
         retryView.setOnClickListener(onRetryButtonClickListener);
+    }
+
+
+    /**
+     * When call api success. Data response
+     * But data can be: null, have no data, normal data
+     * The layout should be view the corresponding layout.
+     * And also request controller to bind data to that view.
+     */
+
+    public void bindData(K data) {
+        if (controllerTask == null)
+            throw new IllegalStateException("Controller should implement interface ControllerTask");
+        if (data == null) {
+            switchToNoDataView();
+        } else if (data.hasData()) {
+            switchToDataView();
+            controllerTask.displayData(data);
+        } else {
+            switchToNoDataView();
+        }
+    }
+
+
+    public void bindError(String mess) {
+        if (controllerTask == null)
+            throw new IllegalStateException("Controller should implement interface ControllerTask");
+        switchToErrorView();
+    }
+
+    public void bindLoading() {
+        switchToLoadingView();
     }
 }
