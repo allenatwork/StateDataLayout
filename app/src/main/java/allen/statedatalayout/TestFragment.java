@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.TextView;
 
 import allen.statedatalayout.api.ApiInterface;
 import allen.statedatalayout.api.RetrofitSingleton;
@@ -51,6 +52,6 @@ public class TestFragment extends CallOneApiFragment<StoryDetailResponse> {
 
     @Override
     public void displayData(StoryDetailResponse data) {
-
+        ((TextView) layout.getDataView().findViewById(R.id.text)).setText(data.toString());
     }
 }
