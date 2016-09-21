@@ -32,9 +32,8 @@ public abstract class CallOneApiFragment<K extends GetInfoData> extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        layout = new StateDataLayout<>(getContext());
+        layout = new StateDataLayout<>(this, inflater);
         layout.setLayoutRes(getLayoutRes(), R.layout.nodata_layout, R.layout.loading_layout, R.layout.error_layout);
-        layout.setControllerTask(this);
         return layout;
     }
 

@@ -1,6 +1,8 @@
 package allen.statedatalayout.widget;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,20 +40,29 @@ public class StateDataLayout<K extends GetInfoData> extends FrameLayout {
 
     public StateDataLayout(Context context) {
         super(context);
-        init(context);
+    }
+
+    public StateDataLayout(Fragment fragment, LayoutInflater layoutInflater) {
+        super(fragment.getContext());
+        this.layoutInflater = layoutInflater;
+        if (fragment instanceof ControllerTask)
+            setControllerTask((ControllerTask) fragment);
+    }
+
+    public StateDataLayout(Activity activity, LayoutInflater layoutInflater) {
+        super(activity);
+        this.layoutInflater = layoutInflater;
+        if (activity instanceof ControllerTask) {
+            setControllerTask((ControllerTask) activity);
+        }
     }
 
     public StateDataLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
     }
 
     public StateDataLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    private void init(Context context) {
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
 
