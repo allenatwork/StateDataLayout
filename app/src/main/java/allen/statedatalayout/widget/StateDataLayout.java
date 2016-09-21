@@ -13,10 +13,6 @@ import allen.statedatalayout.R;
  */
 public class StateDataLayout<K extends GetInfoData> extends FrameLayout {
     private LayoutInflater layoutInflater;
-    //    private int loading_layout_res;
-//    private int error_layout_res;
-//    private int data_layout_res;
-//    private int nodata_layout_res;
     private View mLoadingView, mErrorView, mNoDataView, mDataView;
 
     ControllerTask<K> controllerTask;

@@ -162,4 +162,9 @@ public class StoryDetailResponse extends BaseResponse implements Parcelable, Get
             return new StoryDetailResponse[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return storyDetail.getStory_name();
+    }
 }
