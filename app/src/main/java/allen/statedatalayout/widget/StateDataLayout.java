@@ -1,5 +1,6 @@
 package allen.statedatalayout.widget;
 
+import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,11 @@ public class StateDataLayout<K extends GetInfoData> extends FrameLayout {
 
     public StateDataLayout(Context context) {
         super(context);
+        init(context);
+    }
+
+    private void init(Context context) {
+        setLayoutTransition(new LayoutTransition());
     }
 
     public StateDataLayout(Fragment fragment, LayoutInflater layoutInflater) {
@@ -133,8 +139,13 @@ public class StateDataLayout<K extends GetInfoData> extends FrameLayout {
     }
 
     private void switchToDataView() {
-        goneView(mNoDataView, mErrorView, mLoadingView);
-        showView(mDataView);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                goneView(mNoDataView, mErrorView, mLoadingView);
+                showView(mDataView);
+            }
+        }, 1000);
     }
 
     public void goneView(View... views) {
